@@ -1,24 +1,62 @@
-import logo from './logo.svg';
-import './App.css';
+// import { Router, Route, Link } from 'react-router'
 
-function App() {
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  useRouteMatch,
+  useParams
+} from "react-router-dom";
+
+import { Layout } from 'antd';
+
+// 导入共用组件
+import MyHeader from './components/head/header'
+import Aside from './components/aside/Aside'
+
+// 导入路由组件
+import Index from './pages/index/index'
+import Label from './pages/label/label'
+import Milestone from './pages/milestone/milestone'
+import Post from './pages/post/post'
+
+const { Header, Footer, Content } = Layout;
+
+// 根组件
+function App () {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Layout>
+      <Router>
+        <Header>
+          <MyHeader>
+            <Link to='/'>主页</Link>
+            <Link to='/label'>标签</Link>
+            <Link to='/category'>分类</Link>
+          </MyHeader>
+        </Header>
+        <Content>
+          <div>
+            <Switch>
+              <Route path="/label">
+                <Label />
+              </Route>
+              <Route path="/category">
+                <Milestone />
+              </Route>
+              <Route path="/post/:number">
+                <Post />
+              </Route>
+              <Route path="/">
+                <Index />
+              </Route>
+            </Switch>
+          </div>
+        </Content>
+      </Router>
+      <Footer>Footer</Footer>
+    </Layout >
+
   );
 }
 
