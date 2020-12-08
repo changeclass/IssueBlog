@@ -16,5 +16,9 @@ export default {
   post: {
     // 每页数量（不能超过100）
     page_size: 12
+  },
+  comment: {
+    // 每页数量（不能超过100）
+    page_size: 10
   }
 }

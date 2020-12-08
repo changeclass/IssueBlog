@@ -20,6 +20,7 @@ import Index from './pages/index/index'
 import Label from './pages/label/label'
 import Milestone from './pages/milestone/milestone'
 import Post from './pages/post/post'
+import OAuth from './pages/auth/auth'
 
 const { Header, Footer, Content } = Layout;
 
@@ -46,6 +47,9 @@ function App () {
               </Route>
               <Route path="/post/:number">
                 <Post />
+              </Route>
+              <Route path="/OAuth">
+                <OAuth />
               </Route>
               <Route path="/">
                 <Index />

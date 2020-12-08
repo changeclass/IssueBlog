@@ -12,3 +12,9 @@ export const reqGetIssues = (page) => ajax(BASE + '/issues', { page, per_page: c
 export const reqGetIssueBody = (number) => ajax(BASE + `/issues/${number}`)
 // 将markdown转为HTML
 export const reqMKtoHTML = (text) => ajax(`/markdown`, { text }, 'POST')
+// 获取评论列表
+export const reqGetCommentList = (number, page) => ajax(BASE + `/issues/${number}/comments`, { page, per_page: config.comment.page_size, }, "GET")
+// 发表评论
+export const reqSendComment = (number, body) => ajax(BASE + `/issues/${number}/comments`, { body }, 'POST')
+// 获取所有labels (前100个)
+export const reqGetAllLabels = () => ajax(BASE + '/labels')

@@ -5,8 +5,29 @@
  */
 import config from '../config/config'
 import axios from 'axios'
-axios.defaults.headers = { Authorization: 'Token ' + config.Token, "Accept": "application / vnd.github.v3 + json" }
+import localStore from '../utils/localStore'
+let token = localStore.getToken()
+axios.defaults.headers.Accept = 'application/vnd.github.v3 + json'
+if (typeof token === "string") {
+  axios({
+    headers: {
+      'Authorization': 'Token ' + token
+    },
+    method: 'get',
+    url: 'https://api.github.com/user',
+  }).then(result => {
+    axios.defaults.headers = { Authorization: 'Token ' + token }
+  }).catch(() => {
+    axios.defaults.headers = { Authorization: 'Token ' + config.Token }
+  })
+} else {
+  axios.defaults.headers = { Authorization: 'Token ' + config.Token }
+}
+
+// axios.defaults.headers = { Authorization: 'Token ' + config.Token }
 axios.defaults.baseURL = `https://api.github.com`;
+
+
 export default function ajax (url, data = {}, method = 'GET') {
   return new Promise((resolve, reject) => {
     let promise

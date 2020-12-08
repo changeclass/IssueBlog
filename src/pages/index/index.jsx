@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Card, Col, Row, Avatar, Button, Tag, Spin } from 'antd'
+import { Card, Col, Row, Avatar, Button, Tag, Skeleton } from 'antd'
 import {
   CaretUpOutlined,
   CaretDownOutlined,
@@ -35,63 +35,69 @@ export default function Index() {
   // 请求获取
   return (
     <div className='site-card-wrapper'>
-      <Spin tip='Loading...' spinning={cardLoading}>
+      <Skeleton active loading={cardLoading}>
         <Row gutter={[16, 24]}>
           {issueList.map((item, index) => {
             console.log(item)
             return (
               <Col span={6} key={index}>
-                <Card
-                  style={{ width: 280 }}
-                  cover={
-                    <img src='https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png' />
-                  }
-                  loading={cardLoading}
-                  hoverable
-                  actions={[
-                    item.labels.length > 0 ? (
-                      <Tag
-                        color={'#' + item.labels[0].color}
-                        key={item.labels[0].id}
-                      >
-                        {item.labels[0].name}
-                      </Tag>
-                    ) : (
-                      <Tag color={config.default_label.color}>
-                        {config.default_label.name}
-                      </Tag>
-                    ),
-                    <span>
-                      <CommentOutlined />
-                      {item.comments}
-                    </span>,
-                    <span
-                      onClick={(event) => {
-                        event.stopPropagation()
-                        history.push('/post/' + item.number)
-                      }}
-                    >
-                      查看
-                    </span>
-                  ]}
+                <span
+                  onClick={(event) => {
+                    event.stopPropagation()
+                    history.push('/post/' + item.number)
+                  }}
                 >
-                  <Meta
-                    avatar={
-                      <Avatar
-                        src={
-                          config.avatar ? config.avatar : item.user.avatar_url
-                        }
-                      />
+                  <Card
+                    style={{ width: 280 }}
+                    cover={
+                      <img src='https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png' />
                     }
-                    title={item.title}
-                    description={'发表于' + formatTime(item.created_at)}
-                  />
-                </Card>
+                    hoverable
+                    actions={[
+                      item.labels.length > 0 ? (
+                        <Tag
+                          color={'#' + item.labels[0].color}
+                          key={item.labels[0].id}
+                        >
+                          {item.labels[0].name}
+                        </Tag>
+                      ) : (
+                        <Tag color={config.default_label.color}>
+                          {config.default_label.name}
+                        </Tag>
+                      ),
+                      <span>
+                        <CommentOutlined />
+                        {item.comments}
+                      </span>,
+                      <span
+                        onClick={(event) => {
+                          event.stopPropagation()
+                          history.push('/post/' + item.number)
+                        }}
+                      >
+                        查看
+                      </span>
+                    ]}
+                  >
+                    <Meta
+                      avatar={
+                        <Avatar
+                          src={
+                            config.avatar ? config.avatar : item.user.avatar_url
+                          }
+                        />
+                      }
+                      title={item.title}
+                      description={'发表于' + formatTime(item.created_at)}
+                    />
+                  </Card>
+                </span>
               </Col>
             )
           })}
         </Row>
-      </Spin>
+      </Skeleton>
 
       <div className='page'>
         {page > 1 ? (
