@@ -9,7 +9,9 @@ import localStore from '../utils/localStore'
 import { message } from 'antd'
 let token = localStore.getToken()
 axios.defaults.headers.Accept = 'application/vnd.github.v3 + json'
+
 if (typeof token === "string") {
+  console.log("进入了");
   axios({
     headers: {
       'Authorization': 'Token ' + token
@@ -22,6 +24,7 @@ if (typeof token === "string") {
     axios.defaults.headers = { Authorization: 'Token ' + config.Token }
   })
 } else {
+  console.log(2);
   axios.defaults.headers = { Authorization: 'Token ' + config.Token }
 }
 

@@ -6,13 +6,19 @@ import { useForm } from 'antd/lib/form/Form'
 const { CheckableTag } = Tag
 
 export default function AdminPost() {
+  let input
   // 表单实例
   const [form] = useForm()
   // 标签
   const [tags, setTags] = useState([])
   // 选择的标签
   const [selectedTags, setSelectedTags] = useState([])
-
+  // 输入框显示
+  const [inputVisible, setInputVisible] = useState(false)
+  // 输入框的值
+  const [inputValue, setInputValue] = useState('')
+  // 输入框
+  // const [input, setInput] = useState()
   // 获取所有labels
   const getLabels = async () => {
     const labels = await reqGetAllLabels()
@@ -29,7 +35,7 @@ export default function AdminPost() {
       : selectedTags.filter((t) => t !== item.name)
     setSelectedTags(nextSelectedTags)
   }
-
+  // 表单提交事件
   const onFinish = async (result) => {
     console.log(1)
     console.log(result)
@@ -42,6 +48,7 @@ export default function AdminPost() {
     )
     if (createObj.number) {
       message.success('创建成功')
+      form.resetFields()
     }
   }
 
@@ -53,9 +60,6 @@ export default function AdminPost() {
       <Form form={form} name='control-hooks' onFinish={onFinish}>
         <Form.Item name='title' label='标题' rules={[{ required: true }]}>
           <Input />
-        </Form.Item>
-        <Form.Item name='body' label='内容' rules={[{ required: true }]}>
-          <Input.TextArea rows={20} />
         </Form.Item>
         <Form.Item label='标签'>
           {tags.map((item) => {
@@ -70,6 +74,10 @@ export default function AdminPost() {
             )
           })}
         </Form.Item>
+        <Form.Item name='body' label='内容' rules={[{ required: true }]}>
+          <Input.TextArea rows={20} />
+        </Form.Item>
+
         <Form.Item>
           <Button block type='primary' htmlType='submit'>
             提交
