@@ -6,6 +6,7 @@
 import config from '../config/config'
 import axios from 'axios'
 import localStore from '../utils/localStore'
+import { message } from 'antd'
 let token = localStore.getToken()
 axios.defaults.headers.Accept = 'application/vnd.github.v3 + json'
 if (typeof token === "string") {
@@ -36,8 +37,12 @@ export default function ajax (url, data = {}, method = 'GET') {
       promise = axios.get(url, {
         params: data
       })
-    } else {
+    } else if (method === 'POST') {
       promise = axios.post(url, data)
+    } else if (method === 'DELETE') {
+      promise = axios.delete(url)
+    } else if (method === 'PATCH') {
+      promise = axios.patch(url, data)
     }
     promise
       .then(response => {
@@ -47,7 +52,7 @@ export default function ajax (url, data = {}, method = 'GET') {
       .catch(error => {
         console.log(error.message);
         // 3. 失败不调用reject，而是提示异常信息 
-        // message.error("请求出错了：" + error.message);
+        message.error("请求出错了：" + error.message);
       })
   })
 };

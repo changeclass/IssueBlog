@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import { Tag, List, Card } from 'antd'
-import { reqGetAllLabels } from '../../api'
+import { reqGetAllLabels, reqGetIssusByLabel } from '../../api'
 import getFontColor from '../../utils/fontColor'
+import { useHistory } from 'react-router-dom'
 export default function Label() {
   const [loading, setLoading] = useState(true)
   const [data, setData] = useState([])
-
+  const history = useHistory()
   const getLabels = async () => {
     const labels = await reqGetAllLabels()
     setLoading(false)
-    console.log(labels)
     setData(labels)
-    console.log(data)
   }
+  reqGetIssusByLabel()
   useEffect(() => {
     getLabels()
   }, [])
@@ -27,19 +27,26 @@ export default function Label() {
           loading={loading}
           renderItem={(item) => (
             <List.Item>
-              <Card
-                title={
-                  <Tag color={'#' + item.color}>
-                    {
-                      <span style={{ color: getFontColor('#' + item.color) }}>
-                        {item.name}
-                      </span>
-                    }
-                  </Tag>
-                }
+              <span
+                onClick={(event) => {
+                  event.stopPropagation()
+                  history.push({ pathname: '/label/' + item.name, state: item })
+                }}
               >
-                {item.description}
-              </Card>
+                <Card
+                  title={
+                    <Tag color={'#' + item.color}>
+                      {
+                        <span style={{ color: getFontColor('#' + item.color) }}>
+                          {item.name}
+                        </span>
+                      }
+                    </Tag>
+                  }
+                >
+                  {item.description}
+                </Card>
+              </span>
             </List.Item>
           )}
         />

@@ -17,10 +17,12 @@ import Aside from './components/aside/Aside'
 
 // 导入路由组件
 import Index from './pages/index/index'
+import LabelPost from './pages/index/label'
 import Label from './pages/label/label'
 import Milestone from './pages/milestone/milestone'
 import Post from './pages/post/post'
 import OAuth from './pages/auth/auth'
+import Admin from './pages/admin/admin'
 
 const { Header, Footer, Content } = Layout;
 
@@ -39,7 +41,10 @@ function App () {
         <Content>
           <div>
             <Switch>
-              <Route path="/label">
+              <Route path="/label/:label">
+                <LabelPost />
+              </Route>
+              <Route path="/label/">
                 <Label />
               </Route>
               <Route path="/category">
@@ -50,6 +55,9 @@ function App () {
               </Route>
               <Route path="/OAuth">
                 <OAuth />
+              </Route>
+              <Route path="/admin">
+                <Admin />
               </Route>
               <Route path="/">
                 <Index />
