@@ -38,7 +38,6 @@ export default function Index() {
       <Skeleton active loading={cardLoading}>
         <Row gutter={[16, 24]}>
           {issueList.map((item, index) => {
-            console.log(item)
             return (
               <Col span={6} key={index}>
                 <span
